@@ -1,0 +1,39 @@
+<%- include('partials/header.ejs') %>
+
+<main>
+  <form action="/get-academic-papers" method="post">
+    <input
+      class="feedback-input"
+      required
+      type="text"
+      value=""
+      placeholder="Enter the topic of your choice*"
+      id="choiceInput"
+      name="choiceInput"
+    />
+
+    <input
+      class="feedback-input"
+      type="text"
+      value=""
+      placeholder="Enter the name of the author"
+      id="authorInput"
+      name="authorInput"
+    />
+
+    <label class="feedback-input-dropdown" for="publicationInput"
+      >Type of Publication:</label
+    >
+    <select id="publicationInput" name="publicationInput" multiple>
+      <option value="journalArticles">Journal Articles</option>
+      <option value="conferencePapers">Conference Papers</option>
+      <option value="theses">Theses</option>
+      <option value="dissertations">Dissertations</option>
+      <option value="preprints">Preprints</option></select
+    ><br />
+
+    <button class="search" type="submit">Search</button>
+  </form>
+</main>
+
+<%- include('partials/footer.ejs') %>
