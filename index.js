@@ -3,17 +3,18 @@ import axios from "axios";
 import bodyParser from "body-parser";
 
 const app = express();
-
 const port = 8000;
-
 const API_URL = "https://api.exa.ai/search";
-
 const apiKey = "a591ac39-8984-42f5-9abd-24fcc250cf07";
 
-app.use(express.static("public")); // Serve static files from the 'public' directory.
+// Serve static files from the 'public' directory.
+app.use(express.static("public"));
+
 // Parse URL-encoded and JSON bodies for incoming requests.
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json()); // This is crucial for parsing JSON bodies
+
+// For parsing JSON bodies
+app.use(bodyParser.json());
 
 app.set("view engine", "ejs");
 
@@ -47,6 +48,7 @@ app.post("/get-academic-papers", async (req, res) => {
       ? publicationInput.join(", ")
       : publicationInput;
 
+    // Building the query
     let query = `Find new academic research papers on ${choiceInput}`;
     if (authorInput) {
       query += `by ${authorInput}`;
@@ -54,6 +56,8 @@ app.post("/get-academic-papers", async (req, res) => {
     if (publicationInputString) {
       query += `in the category of ${publicationInputString}`;
     }
+
+    //Triggering the API
     const options = {
       method: "POST",
       url: API_URL,
@@ -69,14 +73,12 @@ app.post("/get-academic-papers", async (req, res) => {
         type: "neural",
       },
     };
-
     console.log("Sending query:", query);
-
     const response = await axios.request(options);
     const apiData = response.data;
 
+    //Retrieving results from API response and rendering results
     console.log("API Response:", apiData);
-
     res.render("results.ejs", { apiData });
   } catch (error) {
     console.error("Error occurred:", error.message);
